@@ -12,7 +12,7 @@ void markovPrepare(std::string filePath, bool debug) {
     string twoWords;
     string nextWord;
     int wordCount = 0;
-    for (int i = 0; i < wordList.size(); i++) {
+    for (int i = 0; i < (int) wordList.size(); i++) {
         cout << "Leggendo parola " << i << " di " << wordList.size() << '\r';
 
         // prima parola
@@ -28,7 +28,7 @@ void markovPrepare(std::string filePath, bool debug) {
             twoWords.append(wordList[i]);
 
             // valore corrispondente alle due parole
-            if (i < (wordList.size() - 1)) {
+            if (i < ((int) wordList.size() - 1)) {
                 // prossima parola (le due parole correnti non sono le ultime)
                 nextWord = wordList[i + 1];
                 addToDictionary(twoWords, nextWord);
