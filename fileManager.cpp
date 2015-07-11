@@ -16,6 +16,7 @@ vector<string> readWords(std::string filePath, bool debug) {
         if (debug) cout << "[DEBUG] File aperto correttamente." << endl;
     }
 
+    // TODO: show progress
     // '>>' separa sugli spazi, non c'è bisogno di loopare manualmente sui caratteri
     while (file >> word) {
         wordList.push_back(word);

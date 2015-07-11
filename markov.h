@@ -6,8 +6,8 @@
 
 void markovPrepare(std::string filePath, bool debug);
 
-void markovCreate(int wordsNumber, bool debug);
+void markovCreate(int wordsNumber);
 
-std::string markovPrint();
+std::string markovGetText();
 
 #endif //MARKOV_BOT_MARKOV_H

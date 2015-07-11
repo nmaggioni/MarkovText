@@ -23,28 +23,19 @@
  */
 
 #include "markov.h"
+#include "arguments.h"
 
-const bool debug = true;
+const bool debug = false;
 
 std::string filePath;
 int wordsNumber;
 
-void checkArguments(int argc, char *argv[]) {
-    if (argc != 3) {  // 2 paremetri, il primo è sempre il filename del programma
-        std::cout << "[ERR] Il numero di parametri non è corretto." << std::endl;
-        exit(1);
-    }
-    if (argv[1]) {
-        //
-    }
-}
-
 int main(int argc, char *argv[]) {
-    checkArguments(argc, argv);
+    checkArguments(argc, argv, debug);
 
     markovPrepare(filePath, debug);
-    markovCreate(wordsNumber, debug);
-    markovPrint();
+    markovCreate(wordsNumber);
+    std::cout << std::endl << markovGetText() << std::endl;
 
     return 0;
 }
