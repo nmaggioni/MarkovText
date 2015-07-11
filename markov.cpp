@@ -9,42 +9,28 @@ string markovText = "";
 
 void markovPrepare(std::string filePath, bool debug) {
     vector<string> wordList = readWords(filePath, debug);
-    string twoWords;
-    string nextWord;
-    int wordCount = 0;
-    for (int i = 0; i < (int) wordList.size(); i++) {
-        cout << "Leggendo parola " << i << " di " << wordList.size() << '\r';
+    for (int i = 0; i < (int) (wordList.size() - (markovOrder + 1)); i++) {
+        cout << "Lettura: " << (i * 100) / (wordList.size() - markovOrder) <<
+        "% (parola " << i << " di " << (wordList.size() - markovOrder) << ")" << '\r' << flush;
 
-        // prima parola
-        if (wordCount == 0) {
-            twoWords.append(wordList[i]);
-            twoWords.append(" ");
-            wordCount++;
-            continue;
-        }
-
-        // seconda parola
-        if (wordCount == 1) {
-            twoWords.append(wordList[i]);
-
-            // valore corrispondente alle due parole
-            if (i < ((int) wordList.size() - 1)) {
-                // prossima parola (le due parole correnti non sono le ultime)
-                nextWord = wordList[i + 1];
-                addToDictionary(twoWords, nextWord);
+        string words = "";
+        string nextWord = "";
+        int wordCount = 0;
+        while (true) {
+            if (wordCount < (markovOrder - 1)) {
+                words.append(wordList[i + wordCount]);
+                words.append(" ");
+                wordCount++;
             } else {
-                // uso il carattere '.' (le due parole correnti sono le ultime)
-                cout << "Leggendo parola " << (i + 1) << " di " << wordList.size() << endl;
-                if (twoWords.back() == '.') {
-                    twoWords = twoWords.substr(0, twoWords.size() - 1);
-                }
-                addToDictionary(twoWords, ".");
+                words.append(wordList[i + wordCount]);
+                nextWord = wordList[i + wordCount + 1];
+                addToDictionary(words, nextWord);
+                break;
             }
-
-            wordCount = 0;
-            twoWords.clear();
         }
     }
+    cout << "Lettura: 100% (parola " << (wordList.size() - markovOrder) <<
+    " di " << (wordList.size() - markovOrder) << ")" << endl;
 
     if (debug) {
         printDictionary();
@@ -60,7 +46,8 @@ void markovCreate(int wordsNumber) {
     int key_roll;
     int value_roll;
     for (int i = 0; i < wordsNumber; i++) {
-        cout << "Scrivendo parola " << i << " di " << wordsNumber << '\r';
+        cout << "Scrittura: " << (i * 100) / wordsNumber <<
+        "% (parola " << i << " di " << wordsNumber << ")" << '\r' << flush;
 
         key_roll = rand() % (int) wordsDictionary.size(); // generates number in the range 0..wordsDictionary.size()
         vector<string> values = wordsDictionary[key_roll].value;
@@ -76,7 +63,7 @@ void markovCreate(int wordsNumber) {
         if (i != (wordsNumber - 1)) {
             result.append(" ");
         } else {
-            cout << "Scrivendo parola " << i + 1 << " di " << wordsNumber << endl;
+            cout << "Scrittura: 100% (parola " << i + 1 << " di " << wordsNumber << ")" << endl;
             result.append(".");
         }
     }
