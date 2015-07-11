@@ -28,11 +28,10 @@ vector<string> readWords(std::string filePath, bool debug) {
         for (int i = 0; i < wordList.size(); i++) {
             cout << "[DEBUG]";
             if (i != 0) cout << " ";  // previeni spazio precedente alla prima parola
-            cout << wordList.at((unsigned long) i);
+            cout << wordList[i];
         }
         cout << "\"" << endl << endl;
     }
 
-    file.close();
     return wordList;
 }

@@ -1,6 +1,7 @@
 #include "markov.h"
 #include <chrono>
 #include <thread>
+#include <sstream>
 
 using namespace std;
 
@@ -48,6 +49,8 @@ void markovPrepare(std::string filePath, bool debug) {
     if (debug) {
         printDictionary();
     }
+
+    cout << endl;
 }
 
 void markovCreate(int wordsNumber) {
@@ -77,10 +80,41 @@ void markovCreate(int wordsNumber) {
             result.append(".");
         }
     }
-
     markovText = result;
 }
 
+/*void capitalizeSentences(char *ptr) {
+    int space = 0;
+    int period = 0;
+    *ptr = (char) toupper(*ptr);
+    cout << *ptr;
+    for (int i = 1; i < strlen(ptr); i++) {
+        if (space == 1 && period == 1) {
+            *ptr = (char) toupper(*(ptr + i));
+            cout << *ptr;
+            period = 0;
+            space = 0;
+        } else {
+            cout << (*(ptr + i));
+            if (period == 1) {
+                if (*(ptr + i) == ' ') {
+                    space = 1;
+                } else {
+                    period = 0;
+                }
+            } else {
+                if (*(ptr + i) == '.') {
+                    period = 1;
+                } else {
+                    period = 0;
+                }
+            }
+        }
+    }
+}*/
+
 string markovGetText() {
+    markovText[0] = (char) toupper(markovText[0]);  // Capitalizza la prima lettera
+    //capitalizeSentences(markovText);
     return markovText;
 }
