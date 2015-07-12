@@ -25,7 +25,7 @@ vector<string> readWords(std::string filePath, bool debug) {
     if (debug) {
         cout << "[DEBUG] Numero di parole: " << wordList.size() << endl;
         cout << "[DEBUG] Lista delle parole: \"";
-        for (int i = 0; i < wordList.size(); i++) {
+        for (int i = 0; i < (int) wordList.size(); i++) {
             if (i != 0) cout << " ";  // previeni spazio precedente alla prima parola
             cout << wordList[i];
         }

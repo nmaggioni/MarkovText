@@ -1,4 +1,7 @@
 #include "markov.h"
+#include <algorithm>
+#include <sstream>
+#include <iterator>
 
 using namespace std;
 
@@ -42,20 +45,29 @@ void err_noTerms() {
 }
 
 int lastWordsKey(vector<string> words) {
-    // genera stringa delle ultime parole
-    int index = (int) words.size() - 1;
-    string lastWords;
-    for (int wordCount = 0; wordCount < (markovOrder - 1) && wordCount < ((int) words.size() - 1); wordCount++) {
-        lastWords.append(words[index]);
-        lastWords.append(" ");
-        index--;
-    }
-    lastWords.append(words[index]);
+    string lastWords = "";
 
-    // cerca nel dizionario una chiave che contenga le ultime parole
-    for (int i = 0; i < (int) getDictionary().size(); i++) {
-        if (getDictionary()[i].key.find(lastWords) != string::npos) {
-            return i;
+    // prendi le ultime due parole
+    if ((int) words.size() <= markovOrder) {  // se non ci sono abastanza parole
+        for (int i = 0; i < ((int) words.size() - 1); i++) { // prendi tutto
+            lastWords.append(words[i] + " ");
+        }
+        lastWords.append(words[(int) words.size() - 1]);
+    } else {  // se ci sono abbastanza parole
+        int wordCount = 0;
+        int curIndex = ((int) words.size() - 1) - markovOrder;
+        while (wordCount < (markovOrder - 1)) {
+            lastWords.append(words[curIndex] + " ");
+            curIndex++;
+            wordCount++;
+        }
+        lastWords.append(words[curIndex]);
+    }
+
+    vector<dictionary> dict = getDictionary();
+    for (int keyIndex = 0; keyIndex < ((int) dict.size() - 1); keyIndex++) {
+        if (dict[keyIndex].key.find(lastWords) != string::npos) {
+            return keyIndex;
         }
     }
     err_noTerms();
@@ -65,98 +77,36 @@ int lastWordsKey(vector<string> words) {
 void markovCreate(int wordsNumber) {
     vector<dictionary> wordsDictionary = getDictionary();
     vector<string> result;
-    int value_index;
     int wordCount = 0;
+    int value_index;
 
     while (wordCount < wordsNumber) {
         cout << "Scrittura: " << (wordCount * 100) / wordsNumber <<
         "% (parola " << wordCount << " di " << wordsNumber << ")" << '\r' << flush;
         int key_index;
-        if (wordCount == 0) {  // la prima parola è casuale
+        if (wordCount == 0) {
             key_index = rand() % (int) wordsDictionary.size();
         } else {
             key_index = lastWordsKey(result);
         }
         vector<string> values = wordsDictionary[key_index].value;
-        if (values.size() > 1) {
-            value_index = rand() % (int) values.size();
-        } else {
+        if (values.size() == 1) {
             value_index = 0;
+        } else {
+            value_index = rand() % (int) values.size();
         }
         result.push_back(values[value_index]);
         wordCount++;
     }
 
-    /*while (wordCount < wordsNumber) {
-        cout << "Scrittura: " << (wordCount * 100) / wordsNumber <<
-        "% (parola " << wordCount << " di " << wordsNumber << ")" << '\r' << flush;
-
-        // concatena contestualmente le successive parole
-        int curIndex = (int) result.size() - 1;
-        int wordBuildCount = 0;
-        string buildKey = lastWords();
-        int buildIndex = -1;
-        for (int i = 0; i < (int) wordsDictionary.size(); i++) {
-            if (wordsDictionary[i].key == buildKey) {
-                buildIndex = i;
-                break;
-            }
-        }
-        if (buildIndex != -1) {
-            vector<string> buildValues = wordsDictionary[buildIndex].value;
-            if (buildValues.size() > 1) {
-                value_index = rand() % (int) buildValues.size();
-            } else {
-                value_index = 0;
-            }
-            result.push_back(buildValues[value_index]);
-            wordCount++;
-        } else {
-            cout << endl << endl << "[ERROR] Non sono stati trovati abbastanza termini coerenti. Diminuisci"
-                    " la precisione o il numero di parole richieste." << endl;
-            //break; // quit building if no matches
-            exit(1);
-        }
-    }*/
-
-    string resultStr = "";
-    for (int i = 0; i < (int) (result.size() - 1); i++) {
-        resultStr += (result[i] + " ");
+    int finalIndex = 0;
+    for (int i = 0; i < ((int) result.size() - 1); i++) {
+        markovText += (result[i] + " ");
+        finalIndex++;
     }
-    resultStr += (result[result.size() - 1] + ".");
     cout << "Scrittura: 100% (parola " << wordCount << " di " << wordsNumber << ")" << endl;
-    markovText = resultStr;
+    markovText += (result[finalIndex]);
 }
-
-/*void capitalizeSentences(char *ptr) {
-    int space = 0;
-    int period = 0;
-    *ptr = (char) toupper(*ptr);
-    cout << *ptr;
-    for (int i = 1; i < strlen(ptr); i++) {
-        if (space == 1 && period == 1) {
-            *ptr = (char) toupper(*(ptr + i));
-            cout << *ptr;
-            period = 0;
-            space = 0;
-        } else {
-            cout << (*(ptr + i));
-            if (period == 1) {
-                if (*(ptr + i) == ' ') {
-                    space = 1;
-                } else {
-                    period = 0;
-                }
-            } else {
-                if (*(ptr + i) == '.') {
-                    period = 1;
-                } else {
-                    period = 0;
-                }
-            }
-        }
-    }
-}*/
 
 string markovGetText() {
     markovText[0] = (char) toupper(markovText[0]);  // Capitalizza la prima lettera
