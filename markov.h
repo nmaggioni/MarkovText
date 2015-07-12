@@ -4,7 +4,7 @@
 #include "dictionaryManager.h"
 #include "fileManager.h"
 
-const int markovOrder = 3;
+const int markovOrder = 2;
 
 void markovPrepare(std::string filePath, bool debug);
 
