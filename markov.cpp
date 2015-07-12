@@ -55,7 +55,7 @@ int lastWordsKey(vector<string> words) {
         lastWords.append(words[(int) words.size() - 1]);
     } else {  // se ci sono abbastanza parole
         int wordCount = 0;
-        int curIndex = ((int) words.size() - 1) - markovOrder;
+        int curIndex = ((int) words.size()) - markovOrder;
         while (wordCount < (markovOrder - 1)) {
             lastWords.append(words[curIndex] + " ");
             curIndex++;
