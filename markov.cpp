@@ -109,7 +109,9 @@ void markovCreate(int wordsNumber) {
 }
 
 string markovGetText() {
-    markovText[0] = (char) toupper(markovText[0]);  // Capitalizza la prima lettera
-    //capitalizeSentences(markovText);
+    markovText[0] = (char) toupper(markovText[0]);
+    if (markovText[markovText.size() - 1] != '.') {
+        markovText += ".";
+    }
     return markovText;
 }
