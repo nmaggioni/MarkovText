@@ -6,12 +6,12 @@
 using namespace std;
 
 string markovText = "";
-
 void markovPrepare(std::string filePath, bool debug) {
     vector<string> wordList = readWords(filePath, debug);
-    for (int i = 0; i < (int) (wordList.size() - (markovOrder + 1)); i++) {
-        cout << "Lettura: " << (i * 100) / (wordList.size() - markovOrder) <<
-        "% (parola " << i << " di " << (wordList.size() - markovOrder) << ")" << '\r' << flush;
+    int wSize = (int) wordList.size();
+    for (int i = 0; i < (wSize - (markovOrder + 1)); i++) {
+        cout << "Lettura: " << (i * 100) / (wSize - markovOrder) <<
+        "% (parola " << i << " di " << (wSize - markovOrder) << ")" << '\r' << flush;
 
         string words = "";
         string nextWord = "";
@@ -25,12 +25,13 @@ void markovPrepare(std::string filePath, bool debug) {
                 words.append(wordList[i + wordCount]);
                 nextWord = wordList[i + wordCount + 1];
                 addToDictionary(words, nextWord);
+                wSize = (int) wordList.size();
                 break;
             }
         }
     }
-    cout << "Lettura: 100% (parola " << (wordList.size() - markovOrder) <<
-    " di " << (wordList.size() - markovOrder) << ")" << endl;
+    cout << "Lettura: 100% (parola " << (wSize - markovOrder) <<
+    " di " << (wSize - markovOrder) << ")" << endl;
 
     if (debug) {
         printDictionary();
@@ -45,17 +46,18 @@ void err_noTerms() {
 }
 
 int lastWordsKey(vector<string> words) {
+    int wSize = (int) words.size();
     string lastWords = "";
 
     // prendi le ultime due parole
-    if ((int) words.size() <= markovOrder) {  // se non ci sono abastanza parole
-        for (int i = 0; i < ((int) words.size() - 1); i++) { // prendi tutto
+    if (wSize <= markovOrder) {  // se non ci sono abastanza parole
+        for (int i = 0; i < (wSize - 1); i++) { // prendi tutto
             lastWords.append(words[i] + " ");
         }
-        lastWords.append(words[(int) words.size() - 1]);
+        lastWords.append(words[wSize - 1]);
     } else {  // se ci sono abbastanza parole
         int wordCount = 0;
-        int curIndex = ((int) words.size()) - markovOrder;
+        int curIndex = wSize - markovOrder;
         while (wordCount < (markovOrder - 1)) {
             lastWords.append(words[curIndex] + " ");
             curIndex++;
@@ -76,6 +78,7 @@ int lastWordsKey(vector<string> words) {
 
 void markovCreate(int wordsNumber) {
     vector<dictionary> wordsDictionary = getDictionary();
+    int dSize = (int) wordsDictionary.size();
     vector<string> result;
     int wordCount = 0;
     int value_index;
@@ -85,15 +88,16 @@ void markovCreate(int wordsNumber) {
         "% (parola " << wordCount << " di " << wordsNumber << ")" << '\r' << flush;
         int key_index;
         if (wordCount == 0) {
-            key_index = rand() % (int) wordsDictionary.size();
+            key_index = rand() % dSize;
         } else {
             key_index = lastWordsKey(result);
         }
         vector<string> values = wordsDictionary[key_index].value;
-        if (values.size() == 1) {
+        int vSize = (int) values.size();
+        if (vSize == 1) {
             value_index = 0;
         } else {
-            value_index = rand() % (int) values.size();
+            value_index = rand() % vSize;
         }
         result.push_back(values[value_index]);
         wordCount++;
