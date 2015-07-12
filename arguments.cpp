@@ -6,6 +6,8 @@
 extern std::string filePath;
 extern int wordsNumber;
 
+int markovOrderInt;
+
 bool filePathExists(const char *filename) {
     std::ifstream ifile(filename);
     return (bool) ifile;
@@ -15,7 +17,7 @@ void checkArguments(int argc, char *argv[]) {
     // TODO: {-h|--help} switch
 
     // controlla il numero totale dei parametri
-    if (argc != 3) {  // 2 parametri, il primo è sempre il filename del programma
+    if (argc != 4) {  // filename del programma + 3 parametri
         std::cout << "[ERR] Il numero di parametri forniti non è corretto." << std::endl;
         exit(1);
     }
@@ -36,4 +38,18 @@ void checkArguments(int argc, char *argv[]) {
         }
     }
     wordsNumber = atoi(argv[2]);
+
+    // controlla se il terzo parametro contiene solo numeri
+    char *markovOrderArgv = argv[3];
+    while (*markovOrderArgv) {
+        if (!isdigit(*markovOrderArgv++)) {
+            std::cout << "[ERR] La precisione fornita non è valida." << std::endl;
+            exit(1);
+        }
+    }
+    markovOrderInt = atoi(argv[3]);
+}
+
+int getPrecision() {
+    return markovOrderInt;
 }

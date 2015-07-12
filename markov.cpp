@@ -1,13 +1,12 @@
 #include "markov.h"
-#include <algorithm>
-#include <sstream>
-#include <iterator>
 
 using namespace std;
 
+int markovOrderGlobal;
 string markovText = "";
 
-void markovPrepare(std::string filePath) {
+void markovPrepare(std::string filePath, int markovOrder) {
+    markovOrderGlobal = markovOrder;
     vector<string> wordList = readWords(filePath);
     int wSize = (int) wordList.size();
     for (int i = 0; i < (wSize - (markovOrder + 1)); i++) {
@@ -35,27 +34,20 @@ void markovPrepare(std::string filePath) {
     " di " << (wSize - markovOrder) << ")" << endl;
 }
 
-void err_noTerms() {
-    cout << endl << endl << "[ERROR] Non sono stati trovati abbastanza"
-            " termini coerenti. Diminuisci la precisione"
-            " o il numero di parole richieste." << endl;
-    exit(1);
-}
-
 int lastWordsKey(vector<string> words) {
     int wSize = (int) words.size();
     string lastWords = "";
 
     // prendi le ultime due parole
-    if (wSize <= markovOrder) {  // se non ci sono abastanza parole
+    if (wSize <= markovOrderGlobal) {  // se non ci sono abastanza parole
         for (int i = 0; i < (wSize - 1); i++) { // prendi tutto
             lastWords.append(words[i] + " ");
         }
         lastWords.append(words[wSize - 1]);
     } else {  // se ci sono abbastanza parole
         int wordCount = 0;
-        int curIndex = wSize - markovOrder;
-        while (wordCount < (markovOrder - 1)) {
+        int curIndex = wSize - markovOrderGlobal;
+        while (wordCount < (markovOrderGlobal - 1)) {
             lastWords.append(words[curIndex] + " ");
             curIndex++;
             wordCount++;
@@ -69,8 +61,28 @@ int lastWordsKey(vector<string> words) {
             return keyIndex;
         }
     }
-    err_noTerms();
-    return -1;
+
+    // se arriviamo qui non è stato possibile trovare la chiave successiva
+    cout << endl << endl << "[ERR] Non sono stati trovati abbastanza termini coerenti."
+            " Varia la precisione o il numero di parole richieste." << endl << "Nota: si"
+            " consiglia di mantenere la precisione tra i valori 1 e 3 compresi, precisioni"
+            " superiori potrebbero portare alla non-variazione del testo." << endl << endl;
+    for (; ;) {
+        cout << "Premi [INVIO] per vedere l'ultima scrittura elaborata oppure inserisci [Q] per uscire: ";
+        char input = (char) cin.get();
+        if (input == 'Q' || input == 'q') {
+            exit(1);
+        } else if (input == '\n') {
+            cout << "================================================"
+                    "======================================" << endl;
+            for (int i = 0; i < (wSize - 1); i++) {
+                cout << words[i] << " ";
+            }
+            cout << words[wSize - 1] << endl;
+            exit(1);
+        }
+        cout << '\r';
+    }
 }
 
 void markovCreate(int wordsNumber) {

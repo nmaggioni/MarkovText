@@ -7,4 +7,6 @@
 
 void checkArguments(int argc, char *argv[]);
 
+int getPrecision();
+
 #endif //MARKOV_BOT_ARGUMENTS_H

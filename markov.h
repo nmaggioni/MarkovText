@@ -4,9 +4,7 @@
 #include "dictionaryManager.h"
 #include "fileManager.h"
 
-const int markovOrder = 2;
-
-void markovPrepare(std::string filePath);
+void markovPrepare(std::string filePath, int precision);
 
 void markovCreate(int wordsNumber);
 

@@ -31,7 +31,7 @@ int wordsNumber;
 int main(int argc, char *argv[]) {
     checkArguments(argc, argv);
 
-    markovPrepare(filePath);
+    markovPrepare(filePath, getPrecision());
     markovCreate(wordsNumber);
     std::cout << std::endl << markovGetText() << std::endl;
 
