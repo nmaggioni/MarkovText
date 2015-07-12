@@ -5,6 +5,6 @@
 #ifndef MARKOV_BOT_ARGUMENTS_H
 #define MARKOV_BOT_ARGUMENTS_H
 
-void checkArguments(int argc, char *argv[], bool debug);
+void checkArguments(int argc, char *argv[]);
 
 #endif //MARKOV_BOT_ARGUMENTS_H

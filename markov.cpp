@@ -6,8 +6,9 @@
 using namespace std;
 
 string markovText = "";
-void markovPrepare(std::string filePath, bool debug) {
-    vector<string> wordList = readWords(filePath, debug);
+
+void markovPrepare(std::string filePath) {
+    vector<string> wordList = readWords(filePath);
     int wSize = (int) wordList.size();
     for (int i = 0; i < (wSize - (markovOrder + 1)); i++) {
         cout << "Lettura: " << (i * 100) / (wSize - markovOrder) <<
@@ -32,10 +33,6 @@ void markovPrepare(std::string filePath, bool debug) {
     }
     cout << "Lettura: 100% (parola " << (wSize - markovOrder) <<
     " di " << (wSize - markovOrder) << ")" << endl;
-
-    if (debug) {
-        printDictionary();
-    }
 }
 
 void err_noTerms() {

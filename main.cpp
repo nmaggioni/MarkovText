@@ -25,15 +25,13 @@
 #include "markov.h"
 #include "arguments.h"
 
-const bool debug = false;
-
 std::string filePath;
 int wordsNumber;
 
 int main(int argc, char *argv[]) {
-    checkArguments(argc, argv, debug);
+    checkArguments(argc, argv);
 
-    markovPrepare(filePath, debug);
+    markovPrepare(filePath);
     markovCreate(wordsNumber);
     std::cout << std::endl << markovGetText() << std::endl;
 

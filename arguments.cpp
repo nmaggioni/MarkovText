@@ -11,7 +11,7 @@ bool filePathExists(const char *filename) {
     return (bool) ifile;
 }
 
-void checkArguments(int argc, char *argv[], bool debug) {
+void checkArguments(int argc, char *argv[]) {
     // TODO: {-h|--help} switch
 
     // controlla il numero totale dei parametri
@@ -36,6 +36,4 @@ void checkArguments(int argc, char *argv[], bool debug) {
         }
     }
     wordsNumber = atoi(argv[2]);
-
-    if (debug) std::cout << "[DEBUG] Tutti i parametri sono validi." << std::endl;
 }

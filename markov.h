@@ -6,7 +6,7 @@
 
 const int markovOrder = 2;
 
-void markovPrepare(std::string filePath, bool debug);
+void markovPrepare(std::string filePath);
 
 void markovCreate(int wordsNumber);
 
