@@ -5,6 +5,9 @@
 #include <fstream>
 #include <vector>
 
-std::vector<std::string> readWords(std::string filePath);
+class fileManager {
+public:
+    std::vector<std::string> readWords(std::string filePath);
+};
 
 #endif //MARKOV_BOT_FILEMANAGER_H

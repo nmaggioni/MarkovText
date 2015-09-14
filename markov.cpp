@@ -2,12 +2,15 @@
 
 using namespace std;
 
+dictionaryManager dictManager;
+fileManager fManager;
+
 int markovOrderGlobal;
 string markovText = "";
 
 void markovPrepare(std::string filePath, int markovOrder) {
     markovOrderGlobal = markovOrder;
-    vector<string> wordList = readWords(filePath);
+    vector<string> wordList = fManager.readWords(filePath);
     int wSize = (int) wordList.size();
     for (int i = 0; i < (wSize - (markovOrder + 1)); i++) {
         cout << "Lettura: " << (i * 100) / (wSize - markovOrder) <<
@@ -24,7 +27,7 @@ void markovPrepare(std::string filePath, int markovOrder) {
             } else {
                 words.append(wordList[i + wordCount]);
                 nextWord = wordList[i + wordCount + 1];
-                addToDictionary(words, nextWord);
+                dictManager.addToDictionary(words, nextWord);
                 wSize = (int) wordList.size();
                 break;
             }
@@ -55,7 +58,7 @@ int lastWordsKey(vector<string> words) {
         lastWords.append(words[curIndex]);
     }
 
-    vector<dictionary> dict = getDictionary();
+    vector<dictionary> dict = dictManager.getDictionary();
     for (int keyIndex = 0; keyIndex < ((int) dict.size() - 1); keyIndex++) {
         if (dict[keyIndex].key.find(lastWords) != string::npos) {
             return keyIndex;
@@ -86,7 +89,7 @@ int lastWordsKey(vector<string> words) {
 }
 
 void markovCreate(int wordsNumber) {
-    vector<dictionary> wordsDictionary = getDictionary();
+    vector<dictionary> wordsDictionary = dictManager.getDictionary();
     int dSize = (int) wordsDictionary.size();
     vector<string> result;
     int wordCount = 0;

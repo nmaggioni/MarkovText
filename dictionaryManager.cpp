@@ -5,7 +5,7 @@ using namespace std;
 struct dictionary entry;
 vector<dictionary> wordCombinations;
 
-void addToDictionary(string key, string value) {
+void dictionaryManager::addToDictionary(string key, string value) {
     int wSize = (int) wordCombinations.size();
 
     if (wSize == 0) {
@@ -37,7 +37,7 @@ void addToDictionary(string key, string value) {
     }
 }
 
-void printDictionary() {
+void dictionaryManager::printDictionary() {
     // stampa la chiave e apri le virgolette
     for (int i = 0; i < (int) wordCombinations.size(); i++) {
         cout << "\"" << wordCombinations[i].key << "\" => \"";
@@ -55,6 +55,6 @@ void printDictionary() {
     }
 }
 
-vector<dictionary> getDictionary() {
+vector<dictionary> dictionaryManager::getDictionary() {
     return wordCombinations;
 }

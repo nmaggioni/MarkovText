@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector<string> readWords(std::string filePath) {
+vector<string> fileManager::readWords(std::string filePath) {
     ifstream file;
     string word;
     vector<string> wordList;

@@ -3,10 +3,15 @@
 
 #include "dictionary.h"
 
-void addToDictionary(std::string key, std::string value);
+class dictionaryManager {
 
-void printDictionary();
+public:
+    void addToDictionary(std::string key, std::string value);
 
-std::vector<dictionary> getDictionary();
+    std::vector<dictionary> getDictionary();
+
+private:
+    void printDictionary();
+};
 
 #endif //MARKOV_BOT_DICTIONARYMANAGER_H
