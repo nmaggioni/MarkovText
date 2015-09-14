@@ -37,24 +37,6 @@ void dictionaryManager::addToDictionary(string key, string value) {
     }
 }
 
-void dictionaryManager::printDictionary() {
-    // stampa la chiave e apri le virgolette
-    for (int i = 0; i < (int) wordCombinations.size(); i++) {
-        cout << "\"" << wordCombinations[i].key << "\" => \"";
-
-        // stampa i valori separati da virgole
-        for (int el = 0; el < (int) wordCombinations[i].value.size(); el++) {
-            cout << wordCombinations[i].value[el];
-            if (el != (int) wordCombinations[i].value.size() - 1) {  // evita la virgola dopo l'ultimo valore
-                cout << ", ";
-            }
-        }
-
-        // chiudi le virgolette a inserisci newline
-        cout << "\"" << endl;
-    }
-}
-
 vector<dictionary> dictionaryManager::getDictionary() {
     return wordCombinations;
 }

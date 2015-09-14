@@ -9,9 +9,6 @@ public:
     void addToDictionary(std::string key, std::string value);
 
     std::vector<dictionary> getDictionary();
-
-private:
-    void printDictionary();
 };
 
 #endif //MARKOV_BOT_DICTIONARYMANAGER_H
