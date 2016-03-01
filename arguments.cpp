@@ -18,7 +18,10 @@ void checkArguments(int argc, char *argv[]) {
 
     // controlla il numero totale dei parametri
     if (argc != 4) {  // filename del programma + 3 parametri
-        std::cout << "[ERR] Il numero di parametri forniti non è corretto." << std::endl;
+        std::cout << "[ERR] Il numero di parametri forniti non è corretto." << std::endl << std::endl <<
+            "Utilizzo: './Markov_Bot fileInput numeroParole precisione'" << std::endl <<
+            "'fileInput' è il path al file di testo, 'numeroParole' è il numero di parole da " <<
+            "generare (intero), 'precisione' è un intero solitamente compreso tra 1 e 3." << std::endl;
         exit(1);
     }
 
